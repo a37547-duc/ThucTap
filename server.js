@@ -1,12 +1,9 @@
 // Import thư viện cần thiết
 const express = require("express");
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
 const { connectToDatabase } = require("./config/mongo");
-
 const QuizzRoutes = require("./routes/quizz.route");
 
 // Khởi tạo ứng dụng express
@@ -16,31 +13,34 @@ const app = express();
 dotenv.config();
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
-
 app.use(
   cors({
-    // origin: process.env.URL_CLIENT, //
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // URL của frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    credentials: true,
+    credentials: true, // Cho phép gửi cookie và thông tin xác thực
   })
 );
+app.options("*", cors()); // Xử lý preflight request
 
-app.set("trust proxy", 1);
+app.use(express.json()); // Thay thế body-parser
+
+app.set("trust proxy", 1); // Nếu dùng proxy/ngrok, bật tính năng này
 
 // ROUTES
 app.use("/api/v1/quizz", QuizzRoutes);
 
-// Lắng nghe trên cổng 5000
+// Kết nối MongoDB và khởi động server
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log("Server is running on http://localhost:" + 5000);
+const startServer = async () => {
   try {
-    connectToDatabase();
+    await connectToDatabase();
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
   } catch (error) {
-    console.error("Không thể kết nối tới Ngrok:", error);
+    console.error("Không thể kết nối tới MongoDB:", error);
   }
-});
+};
+
+startServer();
