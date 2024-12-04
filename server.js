@@ -15,7 +15,7 @@ dotenv.config();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // URL của frontend
+    origin: "http://localhost:5050", // URL của frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true, // Cho phép gửi cookie và thông tin xác thực
   })
