@@ -7,6 +7,7 @@ const { createServer } = require("http");
 const { initializeSocket } = require("./config/socket"); // Socket logic
 const { connectToDatabase } = require("./config/mongo");
 const messageRouter = require("./routes/socket.route"); // Import message routes
+const quizzRouter = require("./routes/quizz.route");
 
 // Khởi tạo ứng dụng Express
 const app = express();
@@ -28,6 +29,8 @@ app.use(
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
+
+app.use("/api/v1/quizz", quizzRouter);
 
 // Tích hợp Router
 app.use("/api/v1/messages", messageRouter);
