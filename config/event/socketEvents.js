@@ -199,9 +199,7 @@ module.exports = (socket, io) => {
         return;
       }
 
-      // const duration = quizzData.duration; // Thời gian làm bài từ DB
-
-      const duration = 360000;
+      const duration = quizzData.duration; // Thời gian làm bài từ DB
       games[gameId] = {
         gameId,
         idgame,
