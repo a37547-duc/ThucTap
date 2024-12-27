@@ -200,6 +200,7 @@ module.exports = (socket, io) => {
       }
 
       const duration = quizzData.duration; // Thời gian làm bài từ DB
+      console.log("THONG TIN SERVER: ", duration);
       games[gameId] = {
         gameId,
         idgame,

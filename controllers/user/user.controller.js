@@ -53,19 +53,19 @@ const Register = async (req, res) => {
     const { username, email, authType, password, recaptchaToken } = req.body;
 
     // // 1. Xác minh reCAPTCHA token với Google
-    // const secretKey = "6Lda6J0qAAAAACmkCzHy6MU7_XAkhJZp0szspvTs"; // Key bí mật từ Google reCAPTCHA
-    // const verifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+    const secretKey = "6Lda6J0qAAAAACmkCzHy6MU7_XAkhJZp0szspvTs"; // Key bí mật từ Google reCAPTCHA
+    const verifyUrl = "https://www.google.com/recaptcha/api/siteverify";
 
-    // const googleResponse = await axios.post(verifyUrl, null, {
-    //   params: {
-    //     secret: secretKey,
-    //     response: recaptchaToken,
-    //   },
-    // });
-    // console.log("THÔNG TIN TỪ GOOGLE: ", googleResponse);
-    // if (!googleResponse.data.success) {
-    //   return res.status(400).json({ message: "Xác minh reCAPTCHA thất bại" });
-    // }
+    const googleResponse = await axios.post(verifyUrl, null, {
+      params: {
+        secret: secretKey,
+        response: recaptchaToken,
+      },
+    });
+    console.log("THÔNG TIN TỪ GOOGLE: ", googleResponse);
+    if (!googleResponse.data.success) {
+      return res.status(400).json({ message: "Xác minh reCAPTCHA thất bại" });
+    }
 
     // 2. Kiểm tra người dùng đã tồn tại
     const existingUser = await User.findOne({

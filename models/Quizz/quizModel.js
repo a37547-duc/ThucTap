@@ -11,6 +11,11 @@ const quizzSchema = new mongoose.Schema({
       correctAnswer: { type: Number, required: true },
     },
   ],
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 // Tạo model từ schema
