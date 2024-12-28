@@ -135,4 +135,44 @@ router.patch("/quizzes/update/:id", async (req, res) => {
 });
 
 router.delete("/quizzes/delete/:id", deleteQuiz);
+
+router.patch("/quizzes/:quizId/questions/:questionId", async (req, res) => {
+  try {
+    const { quizId, questionId } = req.params;
+    const { question, answers, correctAnswer } = req.body;
+
+    // Tìm quiz
+    const quiz = await Quizz.findById(quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
+
+    // Tìm câu hỏi
+    const questionToUpdate = quiz.questions.id(questionId);
+
+    if (!questionToUpdate) {
+      return res.status(404).json({ error: "Question not found" });
+    }
+
+    // Cập nhật các trường
+    if (question) questionToUpdate.question = question;
+    if (Array.isArray(answers)) questionToUpdate.answers = answers;
+    if (typeof correctAnswer === "number") {
+      if (correctAnswer < 0 || correctAnswer >= answers.length) {
+        return res.status(400).json({ error: "Invalid correctAnswer index" });
+      }
+      questionToUpdate.correctAnswer = correctAnswer;
+    }
+
+    // Lưu quiz
+    await quiz.save();
+
+    res.status(200).json({ message: "Question updated successfully", quiz });
+  } catch (error) {
+    console.error("Error updating question:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;
