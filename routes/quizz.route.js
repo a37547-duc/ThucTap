@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const mongoose = require("mongoose");
 const Quizz = require("../models/Quizz/quizModel");
 
 const {
@@ -172,6 +172,47 @@ router.patch("/quizzes/:quizId/questions/:questionId", async (req, res) => {
   } catch (error) {
     console.error("Error updating question:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/quizzes/:quizId/questions", async (req, res) => {
+  const { quizId } = req.params;
+  const { question, answers, correctAnswer } = req.body;
+
+  // Kiểm tra dữ liệu đầu vào
+  if (!question || !answers || correctAnswer === undefined) {
+    return res.status(400).json({ message: "Thiếu thông tin câu hỏi." });
+  }
+
+  try {
+    // Tìm bài kiểm tra bằng quizId
+    const quiz = await Quizz.findById(quizId);
+    if (!quiz) {
+      return res.status(404).json({ message: "Không tìm thấy bài kiểm tra." });
+    }
+
+    // Tạo câu hỏi mới
+    const newQuestion = {
+      question,
+      answers,
+      correctAnswer,
+      _id: new mongoose.Types.ObjectId(), // Tự tạo ObjectId mới cho câu hỏi
+    };
+
+    // Thêm câu hỏi vào mảng questions
+    quiz.questions.push(newQuestion);
+
+    // Lưu thay đổi
+    await quiz.save();
+
+    // Trả về kết quả thành công
+    res.status(200).json({
+      message: "Question added successfully",
+      quiz,
+    });
+  } catch (error) {
+    console.error("Lỗi khi thêm câu hỏi:", error);
+    res.status(500).json({ message: "Có lỗi xảy ra, vui lòng thử lại sau." });
   }
 });
 
