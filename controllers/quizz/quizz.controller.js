@@ -58,7 +58,7 @@ const deleteQuiz = async (req, res) => {
     }
 
     // Xóa quiz
-    await quiz.remove();
+    await Quizz.deleteOne({ _id: id });
 
     res.status(200).json({ message: "Quiz deleted successfully" });
   } catch (error) {

@@ -7,7 +7,7 @@ const initializeSocket = (httpServer) => {
   // Tạo Socket.IO server gắn vào HTTP server
   io = new Server(httpServer, {
     cors: {
-      origin: "http://localhost:5050",
+      origin: "https://quiz-9161f.web.app",
       // origin: "https://quizzlet-19y7.onrender.com",
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
       credentials: true,

@@ -29,6 +29,26 @@ router.get("/quizzes", async (req, res) => {
   }
 });
 
+router.get("/quizzes/user", checkUserJWT, async (req, res) => {
+  try {
+    // Lấy quizzes của creator dựa vào id người dùng (req.user.id)
+    const quizzes = await Quizz.find({ creator: req.user.id });
+
+    // Nếu không có quiz nào, trả về thông báo
+    if (quizzes.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No quizzes found for this creator" });
+    }
+
+    // Trả về danh sách quizzes của creator
+    res.status(200).json({ quizzes });
+  } catch (error) {
+    console.error("Error fetching quizzes:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.get("/quizzes/:id/questions", async (req, res) => {
   try {
     // Lấy id từ params
