@@ -23,23 +23,25 @@ const app = express();
 dotenv.config();
 
 // Cấu hình middleware CORS
-// app.use(
-//   cors({
-//     origin: "http://localhost:5050", // URL của frontend
-//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-//     credentials: true, // Cho phép gửi cookie
-//   })
-// );
 app.use(
   cors({
-    origin: [
-      "http://localhost:5050", // URL của frontend trên local
-      "https://quiz-9161f.web.app", // URL của frontend trên production
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Các phương thức HTTP được phép
-    credentials: true, // Cho phép gửi cookie hoặc thông tin xác thực
+    // origin: "http://localhost:5050", // URL của frontend
+    origin: "https://quiz-9161f.web.app", // URL của frontend
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true, // Cho phép gửi cookie
   })
 );
+
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:5050", // URL của frontend trên local
+//       "https://quiz-9161f.web.app", // URL của frontend trên production
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Các phương thức HTTP được phép
+//     credentials: true, // Cho phép gửi cookie hoặc thông tin xác thực
+//   })
+// );
 
 // Middleware
 app.use(bodyParser.json());
