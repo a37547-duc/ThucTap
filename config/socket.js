@@ -8,7 +8,7 @@ const initializeSocket = (httpServer) => {
   io = new Server(httpServer, {
     cors: {
       // origin: "http://localhost:5050",
-      origin: "https://quizzlet-19y7.onrender.com",
+      origin: "https://quiz-9161f.web.app",
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
       credentials: true,
     },
@@ -24,19 +24,5 @@ const initializeSocket = (httpServer) => {
 
   return io;
 };
-
-// const initializeSocket = (httpServer) => {
-//   // Tạo Socket.IO server gắn vào HTTP server
-//   io = new Server(httpServer, {
-//     cors: {
-//       origin: [
-//         "http://localhost:5050", // Cho phép frontend chạy trên localhost
-//         "https://quiz-9161f.web.app", // Cho phép frontend đã deploy
-//       ],
-//       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-//       credentials: true, // Cho phép gửi thông tin xác thực (cookie)
-//     },
-//   });
-// };
 
 module.exports = { initializeSocket, io };
