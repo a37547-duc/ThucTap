@@ -99,7 +99,7 @@ const Register = async (req, res) => {
     await newUser.save();
 
     // 6. Gửi email xác minh tài khoản
-    const url = `http://localhost:5050/users/${newUser._id}/verify/${jwtToken}`;
+    const url = `https://quiz-9161f.web.app/users/${newUser._id}/verify/${jwtToken}`;
     const data = {
       email: newUser.email,
       url: url,
