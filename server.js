@@ -25,8 +25,8 @@ dotenv.config();
 // Cấu hình middleware CORS
 app.use(
   cors({
-    origin: "http://localhost:5050", // URL của frontend
-    // origin: "https://quiz-9161f.web.app", // URL của frontend
+    // origin: "http://localhost:5050", // URL của frontend
+    origin: "https://quiz-9161f.web.app", // URL của frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true, // Cho phép gửi cookie
   })
